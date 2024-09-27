@@ -1,0 +1,22 @@
+spring:
+  application:
+    name: bank2
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/rqbank2
+    username: root
+    password: 123456
+server:
+  port: 8082
+  servlet:
+    context-path: /bank2
+eureka:
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:8080/eureka
+    register-with-eureka: true
+    fetch-registry: true
+rocketmq:
+  producer:
+    group: producer_bank2 #供rocketmq启动使用，程序里的生产组不能和这个一样
+  name-server: localhost:9876

@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: eureka-service
+server:
+  port: 8080
+eureka:
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:8080/eureka #没有该配置，控制台会一直报错org.apache.http.conn.ConnectTimeoutException: Connect to localhost:8761 timed out
+    register-with-eureka: false #乱码吗
+    fetch-registry: false #
