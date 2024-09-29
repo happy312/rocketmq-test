@@ -4,8 +4,10 @@ import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.JSONPObject;
 import com.zxy.bank2.client.Bank1Client;
 import com.zxy.bank2.mapper.AccountInfoMapper;
+import com.zxy.bank2.model.AccountInfo;
 import com.zxy.bank2.service.AccountInfoService;
 import com.zxy.bank2.vo.AccountTransferVO;
+import com.zxy.bank2.vo.NotifyVO;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.client.producer.TransactionSendResult;
 import org.apache.rocketmq.spring.core.RocketMQTemplate;
@@ -72,5 +74,21 @@ public class AccountInfoServiceImpl implements AccountInfoService {
         log.info("消息发送内容：" + JSONObject.toJSONString(accountTransferVO));
         TransactionSendResult transactionSendResult = rocketMQTemplate.sendMessageInTransaction("producer_group_tx_bank2", "topic_transfer_bank2", message, null);
         log.info("消息发送结果：" + JSONObject.toJSONString(transactionSendResult));
+    }
+
+    @Transactional
+    @Override
+    public Boolean saveAccountInfo(NotifyVO notifyVO) {
+        // 增加用户
+        if (accountInfoMapper.saveAccountInfo(notifyVO.getId(), notifyVO.getName(), String.valueOf(notifyVO.getMoney())) > 0) {
+            // 发送普通消息
+            rocketMQTemplate.convertAndSend("topic_notify", notifyVO);
+        }
+        return true;
+    }
+
+    @Override
+    public AccountInfo getById(String id) {
+        return accountInfoMapper.getById(id);
     }
 }

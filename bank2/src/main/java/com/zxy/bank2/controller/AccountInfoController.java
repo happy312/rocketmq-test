@@ -7,7 +7,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * bank2服务向bank1服务转账，bank2扣减金额，bank1增加金额
+ * 分布式事务管理之可靠消息一致性
+ * 场景：bank2服务向bank1服务转账，bank2扣减金额，bank1增加金额
  */
 @RestController
 @RequestMapping("/accountInfo")
