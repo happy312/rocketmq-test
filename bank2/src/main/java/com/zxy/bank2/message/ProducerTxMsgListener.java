@@ -33,6 +33,7 @@ public class ProducerTxMsgListener implements RocketMQLocalTransactionListener {
     @Override
     @Transactional
     public RocketMQLocalTransactionState executeLocalTransaction(Message message, Object o) {
+        log.info("事务消息发送成功，进入executeLocalTransaction方法！");
         try {
             String messageStr = new String((byte[]) message.getPayload());
             JSONObject object = JSONObject.parseObject(messageStr);
